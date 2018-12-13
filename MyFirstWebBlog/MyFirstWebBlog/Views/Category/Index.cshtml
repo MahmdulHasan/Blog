@@ -1,0 +1,106 @@
+﻿
+@{
+                /**/
+
+                /**/
+
+                ViewBag.Title = "Index";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css"></script>
+<script src="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"></script>
+<table id="example" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>Category ID</th>
+            <th>Category</th>
+            <th>Assign Category</th>
+            <th>Edit</th>
+            <th>Delete</th>
+
+        </tr>
+    </thead>
+</table>
+
+@section scripts{
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+        var oTable;
+
+
+        $(document).ready(function () {
+            oTable = $('#example').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": "/Category/CategoryList",
+                "columns": [
+                    { "data": "CategoryId" },
+                    { "data": "CategoryName" },
+
+
+                    {
+                        "title": "Assign Category",
+                        "render": function (data, type, row, meta) {
+                            return '<a class="btn btn-info" target="_blank" href="/BlogCategories/Index/' + row.CategoryId + '">Assign Category</a>';
+                        }
+                    },
+
+                    {
+                        "title": "Edit",
+                        "render": function (data, type, row, meta)
+                        {
+                            return '<a class="btn btn-info" target="_blank" href="/Category/Edit/' + row.CategoryId + '">Edit</a>';
+                        }
+                    },
+                    {
+                        "title": "Delete",
+                        "render": function (data, type, row, meta) {
+                            return '<a class="btn btn-danger" target="_blank" onclick="DeleteCategory(' + row.CategoryId + ')">Delete</a>';
+                        }
+                    },
+
+
+                ],
+
+
+
+            });
+
+        });
+
+        function DeleteCategory(BlogId) {
+            if (confirm("Are you sure to delete!!!")) {
+                Delete(BlogId);
+            }
+            else {
+                return false;
+            }
+        }
+
+
+        function Delete(BlogId) {
+            var url = "/Category/DeleteCategory";
+            $.post(url, { ID: BlogId }, function (data) {
+                if (data == "Deleted") {
+                    alert("Delete Category!");
+                    oTable = $('#example').DataTable();
+                    oTable.draw();
+                }
+                else {
+                    alert("Something Went Wrong!");
+                }
+            });
+        }
+
+    </script>
+}
+
+    <div>
+        @Html.ActionLink("Go To Create", "Create")
+    </div>

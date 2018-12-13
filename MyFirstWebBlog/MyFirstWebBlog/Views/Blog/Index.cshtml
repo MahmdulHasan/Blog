@@ -1,0 +1,78 @@
+﻿@model IEnumerable<MyFirstWebBlog.Models.BlogModel>
+@{
+    ViewBag.Title = "Index";
+}
+<html>
+<head>
+    <style>
+
+    </style>
+</head>
+<body>
+
+    <div class="row">
+        <div class="container">
+            <div class="col-md-8">
+                @foreach (var item in Model)
+                {
+
+                    <h2><a href="/Blog/Get/@item.BlogId">@Html.DisplayFor(modelItem => item.Title)</a></h2>
+                    <h5>
+                        @Html.DisplayFor(modelItem => item.Author),
+                        @Html.DisplayFor(modelItem => item.CreationDate)
+                    </h5>
+                    <div class="fakeimg"><a href="/blog/get/@item.BlogId"><img src="@item.ThumbnailImageUrl" style="height:300px; width:700px"></a></div><br />
+                    <p align="justify">@Html.DisplayFor(modelItem => item.Content)</p>
+
+                }
+            </div>
+
+            <div class="col-md-4">
+
+                <h3>Popular Post</h3>
+                @foreach (var item in Model)
+                {
+
+                    <div class="fakeimg">
+                        <a href="/blog/get/@item.BlogId"><img src="@item.ThumbnailImageUrl" style="height:200px; width:400px " ;></a>
+                    </div><br>
+
+
+                }
+
+                <div class="card">
+                    <h3>Follow Me</h3>
+                    <p>Some text..</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+@*<div class="container-fluid bg-3 text-center">
+        <h3 class="margin">my blogs</h3><br>
+        <div class="row">
+            @foreach (var item in model)
+            {
+                <div class="col-sm-4">
+
+
+
+                    <p>
+
+                        @*content: @html.displayfor(modelitem => item.content)<br />
+                            status: @html.displayfor(modelitem => item.status)<br />
+                            @*creation date: @html.displayfor(modelitem => item.creationdate)<br />
+                            last upadate: @html.displayfor(modelitem => item.lastupdatedate)<br />
+                        <a href="/blog/get/@item.blogid"> <img src="@item.thumbnailimageurl" class="img-responsive margin" style="width:100%" alt="image"></a>
+
+                    </p>
+
+
+
+                </div>
+            }
+
+        </div>
+    </div>*@
